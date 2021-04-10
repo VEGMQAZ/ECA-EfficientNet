@@ -18,7 +18,7 @@ parser.add_argument("--data", type=str, default='Flower', help="is Flower, Fruit
 parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
 parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
 parser.add_argument("--af", type=str, default='swish', help="is relu, swish or hswish")
-parser.add_argument("--at", type=str, default='se', help="is se or eca")
+parser.add_argument("--at", type=str, default='eca', help="is se or eca")
 parser.add_argument("--load", type=int, default=0, help="number of models")
 parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
 parser.add_argument("--img_size", type=int, default=224, help="size of each image dimension")
@@ -51,7 +51,7 @@ def lr_schedule(epoch):
 def trainmodel():
     classes = int(path.split('-')[-1].split('/')[0])
     modelx = 'EfficientNetB0'
-    model = models.myEfficientNet(activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
+    model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='precision'),

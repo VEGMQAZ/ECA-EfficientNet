@@ -6,10 +6,11 @@ from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 from tensorflow.keras.applications.densenet import DenseNet201
 from tensorflow.keras.applications.densenet import DenseNet169
 from tensorflow.keras.applications.nasnet import NASNetMobile
-import tensorflow.python.keras.applications.efficientnet as ef
+import tensorflow.python.keras.applications.efficientnet as efn
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D
 from tensorflow.keras.layers import Input, Conv2D, MaxPool2D, BatchNormalization, Flatten
+import applications.efficientnet as eca
 import af   # hswish
 
 # AlexNet
@@ -135,7 +136,7 @@ def myNASNetMobile(input_shape=(224, 224, 3), classes=1000):
 
 # EfficientNetB0
 def myEfficientNetB0(input_shape=(224, 224, 3), classes=1000):
-    pre_trained_model = ef.EfficientNetB0(input_shape=input_shape, weights='imagenet', include_top=False)
+    pre_trained_model = efn.EfficientNetB0(input_shape=input_shape, weights='imagenet', include_top=False)
     # pre_trained_model = ef.EfficientNetB0(weights='imagenet', include_top=True)
     # pre_trained_model.summary()
     x = pre_trained_model.output
@@ -150,9 +151,16 @@ def myEfficientNetB0(input_shape=(224, 224, 3), classes=1000):
     return model
 
 # EfficientNet
-def myEfficientNet(activation='swish', input_shape=(224, 224, 3), classes=1000):
+def myEfficientNet(attention='se', activation='swish', input_shape=(224, 224, 3), classes=1000):
     # 2021-04-10 guangjinzheng
-    pre_trained_model = ef.EfficientNetB0(activation=activation, input_shape=input_shape, weights='imagenet', include_top=False)
+    pre_trained_model = efn.EfficientNetB0(activation=activation, input_shape=input_shape, weights='imagenet', include_top=False)
+    if attention is not 'se':
+        my_model = eca.EfficientNetB0(activation=activation, input_shape=input_shape, weights=None, include_top=False)
+        for layeri in my_model.layers:
+            if layeri.name in [j.name for j in pre_trained_model.layers]:
+                temp = pre_trained_model.get_layer(layeri.name).get_weights()
+                layeri.set_weights(temp)
+    pre_trained_model = my_model
     x = pre_trained_model.output
     x = GlobalAveragePooling2D(name='avg_pool')(x)
     x = Dropout(0.2, name='top_dropout')(x)

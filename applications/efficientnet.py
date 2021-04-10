@@ -477,25 +477,40 @@ def block(inputs,
 
   # Squeeze and Excitation phase
   if 0 < se_ratio <= 1:
-    filters_se = max(1, int(filters_in * se_ratio))
-    se = layers.GlobalAveragePooling2D(name=name + 'se_squeeze')(x)
-    se = layers.Reshape((1, 1, filters), name=name + 'se_reshape')(se)
-    se = layers.Conv2D(
-        filters_se,
-        1,
-        padding='same',
-        activation=activation,
-        kernel_initializer=CONV_KERNEL_INITIALIZER,
-        name=name + 'se_reduce')(
-            se)
-    se = layers.Conv2D(
-        filters,
-        1,
-        padding='same',
-        activation='sigmoid',
-        kernel_initializer=CONV_KERNEL_INITIALIZER,
-        name=name + 'se_expand')(se)
-    x = layers.multiply([x, se], name=name + 'se_excite')
+    # 2021-04-10 guangjinzheng
+    # filters_se = max(1, int(filters_in * se_ratio))
+    # se = layers.GlobalAveragePooling2D(name=name + 'se_squeeze')(x)
+    # se = layers.Reshape((1, 1, filters), name=name + 'se_reshape')(se)
+    # se = layers.Conv2D(
+    #     filters_se,
+    #     1,
+    #     padding='same',
+    #     activation=activation,
+    #     kernel_initializer=CONV_KERNEL_INITIALIZER,
+    #     name=name + 'se_reduce')(
+    #         se)
+    # se = layers.Conv2D(
+    #     filters,
+    #     1,
+    #     padding='same',
+    #     activation='sigmoid',
+    #     kernel_initializer=CONV_KERNEL_INITIALIZER,
+    #     name=name + 'se_expand')(se)
+    # x = layers.multiply([x, se], name=name + 'se_excite')
+    # 2021-04-08 guangjinzheng
+    import tensorflow as tf
+    channels = tf.keras.backend.int_shape(x)[-1]
+    gamma = 2
+    b = 1
+    t = int(abs((math.log(channels, 2) + b) / gamma))
+    k = t if t % 2 else t + 1
+    squeeze = tf.reduce_mean(x, [2, 3], keepdims=False)
+    squeeze = tf.expand_dims(squeeze, axis=1)
+    attn = layers.Conv1D(filters=1, kernel_size=k, padding='same', use_bias=False)(squeeze)
+    attn = tf.expand_dims(tf.transpose(attn, [0, 2, 1]), 3)
+    attn = tf.math.sigmoid(attn)
+    scale = x * attn
+    x = scale
 
   # Output phase
   x = layers.Conv2D(

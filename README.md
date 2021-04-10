@@ -10,6 +10,8 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 ## History
 2021-04-10 guangjinzheng 
 
+add eca attention 
+
 train.py add save csv with opt argparse data
 
 train.py add argparse 
