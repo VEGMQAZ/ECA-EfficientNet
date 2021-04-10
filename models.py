@@ -11,6 +11,24 @@ from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense, Dropout, GlobalAveragePooling2D
 from tensorflow.keras.layers import Input, Conv2D, MaxPool2D, BatchNormalization, Flatten
 
+# 2021-04-10 guangjinzheng
+import tensorflow as tf
+from tensorflow.python.keras.layers import Activation
+from tensorflow.keras.utils import get_custom_objects
+class Myaf(Activation):
+    # X = Activation('myaf', name="conv1_act")(X_input)
+    def __init__(self, activation, **kwargs):
+        super(Myaf, self).__init__(activation, **kwargs)
+        self.__name__ = 'myaf'
+
+def myaf(inputs):
+    # return tf.nn.relu(inputs)   # relu
+    # return tf.nn.swish(inputs)    # swish
+    return inputs * tf.nn.relu6(inputs + 3.0) / 6.0  # h-swish
+
+get_custom_objects().update({'myaf': Myaf(myaf)})
+# 2021-04-10 guangjinzheng
+
 # AlexNet
 def myAlexNet(input_shape=(224, 224, 3), classes=1000):
     inputs = Input(shape=input_shape)
@@ -137,6 +155,21 @@ def myEfficientNetB0(input_shape=(224, 224, 3), classes=1000):
     pre_trained_model = ef.EfficientNetB0(input_shape=input_shape, weights='imagenet', include_top=False)
     # pre_trained_model = ef.EfficientNetB0(weights='imagenet', include_top=True)
     # pre_trained_model.summary()
+    x = pre_trained_model.output
+    x = GlobalAveragePooling2D(name='avg_pool')(x)
+    x = Dropout(0.2, name='top_dropout')(x)
+    predictions = Dense(classes, activation='softmax')(x)
+    model = Model(inputs=pre_trained_model.input, outputs=predictions)
+    # for layer in model.layers[:-6]:
+    #     layer.trainable = False
+    #     print(layer.name)
+    model.summary()
+    return model
+
+# EfficientNet
+def myEfficientNet(input_shape=(224, 224, 3), classes=1000):
+    # 2021-04-10 guangjinzheng
+    pre_trained_model = ef.EfficientNetB0(activation='myaf', input_shape=input_shape, weights='imagenet', include_top=False)
     x = pre_trained_model.output
     x = GlobalAveragePooling2D(name='avg_pool')(x)
     x = Dropout(0.2, name='top_dropout')(x)

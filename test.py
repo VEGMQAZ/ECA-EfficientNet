@@ -1,5 +1,5 @@
 from keras_flops import get_flops
-import model.models as mymodels
+import models
 
 # Calculae FLOPS
 def getflops(model):
@@ -12,7 +12,7 @@ def getflops(model):
 if __name__ == '__main__':
     hwd = 224
     class_total = 1000
-    model = mymodels.myEfficientNetB0(input_shape=(hwd, hwd, 3), classes=class_total)
+    model = models.myEfficientNetB0(input_shape=(hwd, hwd, 3), classes=class_total)
     flops = getflops(model)
     print(flops)
 

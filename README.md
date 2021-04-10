@@ -10,10 +10,20 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 ## History
 2021-04-10 guangjinzheng 
 
-using tensorflow-gpu EfficientNet
+add af.py  arr relu swish hswish 
+
+modify models.py add myaf like relu swish and hswish
+
+modify models.py add myEfficientNet() function
+
+using tensorflow-gpu EfficientNet C:\Users\guangjinzheng\anaconda3\envs\tf2eca\Lib\site-packages\tensorflow\python\keras\applications
 
 ```bash
-pip install Pillow
+pip install pillow
+
+pip install scikit-learn
+
+pip install tensorflow-addons
 
 pip install tensorflow-gpu
 

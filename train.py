@@ -20,25 +20,26 @@ modelx = 'EfficientNetB0'
 timenum = 1
 hwd = 224
 batch_sizes = 32
-epoch = 100
+epoch = 200
 
 # learn rate
 def lr_schedule(epoch):
-    lr = 3e-5
-    if epoch > 200:
+    lr = 2e-5
+    arr = [50, 100, 150, 200]
+    if epoch > arr[3]:
         lr *= 0.0001
-    elif epoch > 150:
+    elif epoch > arr[2]:
         lr *= 0.001
-    elif epoch > 100:
+    elif epoch > arr[1]:
         lr *= 0.01
-    elif epoch > 50:
+    elif epoch > arr[0]:
         lr *= 0.1
-    print('Learning rate: {:.1e}'.format(lr))
+    print('Epoch: {}  Learning rate: {:.1e}'.format(epoch, lr))
     return lr
 
 # train model
 def trainmodel():
-    model = models.myEfficientNetB0(input_shape=(hwd, hwd, 3), classes=classes)
+    model = models.myEfficientNet(input_shape=(hwd, hwd, 3), classes=classes)
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='precision'),
@@ -70,7 +71,7 @@ def trainmodel():
     # model.load_weights("logs/cp/cp-0050.h5")
     # history = model.fit(train_generator, epochs=epoch, validation_data=valid_generator,
     history = model.fit(train_generator, epochs=epoch, callbacks=[tensorboard_callback, cp_callback])
-    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/plt.csv'.format(dirs))
+    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-plt.csv'.format(dirs, timenow))
     model.load_weights('logs/cp/cp-{:04d}.h5'.format(modelnum))
     score = model.evaluate(test_generator)
     model.save('{}/{}-{:.6f}-{:.4f}.h5'.format(dirs, timenow, score[0], score[1]*100))
