@@ -36,22 +36,6 @@ from tensorflow.python.keras.utils import layer_utils
 from tensorflow.python.lib.io import file_io
 from tensorflow.python.util.tf_export import keras_export
 
-# 2021-04-10 guangjinzheng
-import tensorflow as tf
-from tensorflow.python.keras.layers import Activation
-from tensorflow.keras.utils import get_custom_objects
-class Myaf(Activation):
-    # X = Activation('myaf', name="conv1_act")(X_input)
-    def __init__(self, activation, **kwargs):
-        super(Myaf, self).__init__(activation, **kwargs)
-        self.__name__ = 'myaf'
-def myaf(inputs):
-    # return tf.nn.relu(inputs)   # relu
-    # return tf.nn.swish(inputs)    # swish
-    return inputs * tf.nn.relu6(inputs + 3.0) / 6.0  # h-swish
-get_custom_objects().update({'myaf': Myaf(myaf)})
-# 2021-04-10 guangjinzheng
-
 
 BASE_WEIGHTS_PATH = 'https://storage.googleapis.com/keras-applications/'
 
@@ -214,9 +198,7 @@ def EfficientNet(
     dropout_rate=0.2,
     drop_connect_rate=0.2,
     depth_divisor=8,
-    # activation='swish',
-    # 2021-04-10 guangjinzheng
-    activation='myaf',
+    activation='swish',
     blocks_args='default',
     model_name='efficientnet',
     include_top=True,

@@ -9,22 +9,32 @@ import datetime
 import time
 import csv
 import os
+import argparse
 import models
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-path = 'D:/deeplearning/datasets/imageclassification/Flower-102/'
-# path = 'D:/deeplearning/datasets/imageclassification/Fruits360-131/'
-# path = 'D:/deeplearning/datasets/imageclassification/Leafsnap-184/'
-classes = int(path.split('-')[-1].split('/')[0])
-modelx = 'EfficientNetB0'
-timenum = 1
-hwd = 224
-batch_sizes = 32
-epoch = 200
+parser = argparse.ArgumentParser()
+parser.add_argument("--data", type=str, default='Flower', help="is Flower, Fruit or Leaf")
+parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
+parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
+parser.add_argument("--af", type=str, default='swish', help="is relu, swish or hswish")
+parser.add_argument("--at", type=str, default='se', help="is se or eca")
+parser.add_argument("--load", type=int, default=0, help="number of models")
+parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
+parser.add_argument("--img_size", type=int, default=224, help="size of each image dimension")
+opt = parser.parse_args()
+print(opt)
+path = 'D:/deeplearning/datasets/imageclassification/'
+if opt.data in 'Fruits360-131':
+    path += 'Fruits360-131/'
+elif opt.data in 'Leafsnap-184':
+    path += 'Leafsnap-184/'
+else:
+    path += 'Flower-102/'
 
 # learn rate
 def lr_schedule(epoch):
-    lr = 2e-5
+    lr = opt.lr
     arr = [50, 100, 150, 200]
     if epoch > arr[3]:
         lr *= 0.0001
@@ -39,7 +49,9 @@ def lr_schedule(epoch):
 
 # train model
 def trainmodel():
-    model = models.myEfficientNet(input_shape=(hwd, hwd, 3), classes=classes)
+    classes = int(path.split('-')[-1].split('/')[0])
+    modelx = 'EfficientNetB0'
+    model = models.myEfficientNet(activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='precision'),
@@ -52,12 +64,12 @@ def trainmodel():
                                        height_shift_range=0.2, shear_range=0.2, zoom_range=0.2,
                                        horizontal_flip=True)
     test_datagen = ImageDataGenerator(rescale=1.0/255.)
-    train_generator = train_datagen.flow_from_directory("{}/train/".format(path), batch_size=batch_sizes,
-                                                        class_mode='categorical', target_size=(hwd, hwd))
+    train_generator = train_datagen.flow_from_directory("{}/train/".format(path), batch_size=opt.batch_size,
+                                                        class_mode='categorical', target_size=(opt.img_size, opt.img_size))
     # valid_generator = test_datagen.flow_from_directory("{}/valid/".format(path), batch_size=batch_sizes,
     #                                                    class_mode='categorical', target_size=(w, h))
-    test_generator = test_datagen.flow_from_directory("{}/test/".format(path), batch_size=batch_sizes,
-                                                      class_mode='categorical', target_size=(hwd, hwd))
+    test_generator = test_datagen.flow_from_directory("{}/test/".format(path), batch_size=opt.batch_size,
+                                                      class_mode='categorical', target_size=(opt.img_size, opt.img_size))
     # callback
     if not os.path.exists('logs/cp'):
         os.makedirs('logs/cp')
@@ -68,10 +80,11 @@ def trainmodel():
     # reduce_lr = ReduceLROnPlateau(monitor='val_loss', verbose=1, factor=0.2, patience=5, min_lr=1e-8)
     # lr_scheduler = tf.keras.callbacks.LearningRateScheduler(lr_schedule)
     # load weights
-    # model.load_weights("logs/cp/cp-0050.h5")
+    if opt.load > 0:
+        model.load_weights('logs/cp/cp-{:04d}.h5'.format(opt.load))
     # history = model.fit(train_generator, epochs=epoch, validation_data=valid_generator,
-    history = model.fit(train_generator, epochs=epoch, callbacks=[tensorboard_callback, cp_callback])
-    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-plt.csv'.format(dirs, timenow))
+    history = model.fit(train_generator, epochs=opt.epochs, callbacks=[tensorboard_callback, cp_callback])
+    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}-plt.csv'.format(dirs, modelx, timenow))
     model.load_weights('logs/cp/cp-{:04d}.h5'.format(modelnum))
     score = model.evaluate(test_generator)
     model.save('{}/{}-{:.6f}-{:.4f}.h5'.format(dirs, timenow, score[0], score[1]*100))
@@ -87,7 +100,7 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
         writer = csv.DictWriter(f, fieldnames=str_lossacc)
         writer.writeheader()
         for i in range(epochs):
-            print('{}/{}'.format(i + 1, epoch))
+            print('{}/{}'.format(i + 1, opt.epochs))
             model.load_weights("logs/cp/cp-{:04d}.h5".format(i + 1))
             score = model.evaluate(test)
             writer.writerow({str_lossacc[0]: history[str_lossacc[0]][i], str_lossacc[1]: history[str_lossacc[1]][i],
@@ -98,11 +111,12 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
             if score[1] > modelmax:
                 modelmax = score[1]
                 modelnum = i + 1
+        writer.writerow({str_lossacc[0]: opt})
     f.close()
     return modelnum
 
 if __name__ == '__main__':
-    for i in range(timenum):
+    for i in range(1):
         if i != 0:
             time.sleep(60 * 2)
         p = Process(target=trainmodel)

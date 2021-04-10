@@ -17,6 +17,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\models.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\my\activation_function.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\train.py">
           <value>
             <Attribute>

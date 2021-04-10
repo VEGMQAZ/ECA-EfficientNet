@@ -10,7 +10,16 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 ## History
 2021-04-10 guangjinzheng 
 
-add af.py  arr relu swish hswish 
+train.py add save csv with opt argparse data
+
+train.py add argparse 
+
+``` python
+python train.py 
+python train.py --epoch 100 --lr 2e-5 --load 100 --data flower --af relu --at se --batch_size 32 --img_size 224
+```
+
+add af.py  arr relu swish hswish plot  add hswish like relu
 
 modify models.py add myaf like relu swish and hswish
 
@@ -20,6 +29,8 @@ using tensorflow-gpu EfficientNet C:\Users\guangjinzheng\anaconda3\envs\tf2eca\L
 
 ```bash
 pip install pillow
+
+pip install matplotlib
 
 pip install scikit-learn
 
