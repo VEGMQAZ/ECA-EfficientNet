@@ -9,7 +9,7 @@ import datetime
 import time
 import csv
 import os
-import model.models as mymodels
+import models
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 path = 'D:/deeplearning/datasets/imageclassification/Flower-102/'
@@ -20,13 +20,14 @@ modelx = 'EfficientNetB0'
 timenum = 1
 hwd = 224
 batch_sizes = 32
-epoch = 100
-# epoch = 5
+# epoch = 100
+epoch = 50
 
 # learn rate
 def lr_schedule(epoch):
-    lr = 3e-5
-    # lr = 3e-8
+    # lr = 3e-5
+    # lr = 3e-6
+    lr = 3e-8
     if epoch > 300:
         lr *= 0.01
     elif epoch > 200:
@@ -40,7 +41,7 @@ def lr_schedule(epoch):
 
 # train model
 def trainmodel():
-    model = mymodels.myEfficientNetB0(input_shape=(hwd, hwd, 3), classes=classes)
+    model = models.myEfficientNetB0(input_shape=(hwd, hwd, 3), classes=classes)
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='precision'),
@@ -69,7 +70,7 @@ def trainmodel():
     # reduce_lr = ReduceLROnPlateau(monitor='val_loss', verbose=1, factor=0.2, patience=5, min_lr=1e-8)
     # lr_scheduler = tf.keras.callbacks.LearningRateScheduler(lr_schedule)
     # load weights
-    # model.load_weights("logs/cp/cp-0010.h5")
+    model.load_weights("logs/cp/cp-0050.h5")
     # history = model.fit(train_generator, epochs=epoch, validation_data=valid_generator,
     history = model.fit(train_generator, epochs=epoch, callbacks=[tensorboard_callback, cp_callback])
     modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/plt.csv'.format(dirs))
