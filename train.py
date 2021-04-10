@@ -20,20 +20,17 @@ modelx = 'EfficientNetB0'
 timenum = 1
 hwd = 224
 batch_sizes = 32
-# epoch = 100
-epoch = 50
+epoch = 100
 
 # learn rate
 def lr_schedule(epoch):
-    # lr = 3e-5
-    # lr = 3e-6
-    lr = 3e-8
-    if epoch > 300:
-        lr *= 0.01
-    elif epoch > 200:
-        lr *= 0.5
+    lr = 3e-5
+    if epoch > 200:
+        lr *= 0.0001
+    elif epoch > 150:
+        lr *= 0.001
     elif epoch > 100:
-        lr *= 0.1 * 0.2
+        lr *= 0.01
     elif epoch > 50:
         lr *= 0.1
     print('Learning rate: {:.1e}'.format(lr))
@@ -70,7 +67,7 @@ def trainmodel():
     # reduce_lr = ReduceLROnPlateau(monitor='val_loss', verbose=1, factor=0.2, patience=5, min_lr=1e-8)
     # lr_scheduler = tf.keras.callbacks.LearningRateScheduler(lr_schedule)
     # load weights
-    model.load_weights("logs/cp/cp-0050.h5")
+    # model.load_weights("logs/cp/cp-0050.h5")
     # history = model.fit(train_generator, epochs=epoch, validation_data=valid_generator,
     history = model.fit(train_generator, epochs=epoch, callbacks=[tensorboard_callback, cp_callback])
     modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/plt.csv'.format(dirs))
@@ -112,4 +109,4 @@ if __name__ == '__main__':
         p.join()
     pass
 
-# 2021-04-09 guangjinzheng tensorflow efficientnet
+# 2021-04-10 guangjinzheng tensorflow efficientnet

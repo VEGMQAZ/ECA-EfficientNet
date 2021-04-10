@@ -7,10 +7,18 @@ five other commonly used transfer learning datasets.
 
 The codebase is heavily inspired by the [TensorFlow implementation](https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet).
 
+## History
 2021-04-10 guangjinzheng 
 
 using tensorflow-gpu EfficientNet
 
+```bash
+pip install Pillow
+
+pip install tensorflow-gpu
+
+conda install cudnn
+```
 
 ## Important!
 There was a huge library update **24 of July 2019**. Now efficintnet works with both frameworks: `keras` and `tensorflow.keras`.
