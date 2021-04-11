@@ -24,14 +24,6 @@ parser.add_argument("--batch_size", type=int, default=32, help="size of the batc
 parser.add_argument("--img_size", type=int, default=224, help="size of each image dimension")
 parser.add_argument("--num", type=int, default=1, help="number of running train.py")
 opt = parser.parse_args()
-print(opt)
-path = 'D:/deeplearning/datasets/imageclassification/'
-if opt.data in 'Fruits360-131':
-    path += 'Fruits360-131/'
-elif opt.data in 'Leafsnap-184':
-    path += 'Leafsnap-184/'
-else:
-    path += 'Flower-102/'
 
 # learn rate
 def lr_schedule(epoch):
@@ -50,8 +42,16 @@ def lr_schedule(epoch):
 
 # train model
 def trainmodel():
+    path = 'D:/deeplearning/datasets/imageclassification/'
+    if opt.data in 'Fruits360-131':
+        path += 'Fruits360-131/'
+    elif opt.data in 'Leafsnap-184':
+        path += 'Leafsnap-184/'
+    else:
+        path += 'Flower-102/'
     classes = int(path.split('-')[-1].split('/')[0])
     modelx = 'EfficientNetB0'
+    print(opt)
     model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
@@ -117,8 +117,8 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
     return modelnum
 
 def times(x=0):
-    arr_data = ['Flower', 'Leaf', 'Fruit']
-    arr_at = ['se', 'eca']
+    arr_data = ['Leaf', 'Fruit', 'Flower']
+    arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
     num = 0
     for i in range(len(arr_data)):
