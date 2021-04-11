@@ -1,4 +1,4 @@
-# EfficientNet Keras (and TensorFlow Keras)
+# EfficientNet-ECA-Hswish  (TensorFlow and Keras)
 
 [![PyPI version](https://badge.fury.io/py/efficientnet.svg)](https://badge.fury.io/py/efficientnet) [![Downloads](https://pepy.tech/badge/efficientnet/month)](https://pepy.tech/project/efficientnet/month)
 
@@ -30,12 +30,12 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 ### Flower dataset
 |Method    |Top1 Acc|Params |FLOPs   |Training|Latency |
 | :----    |:----:  |:----: |:----:  |:----:  |:----:  |
-|ReLU+SE   |96.814% |eca    |96.1%   |eca     |96.1%   |
-|Swish+SE  |97.549% |eca    |96.1%   |eca     |96.1%   |
-|Hswish+SE |97.206% |eca    |96.1%   |eca     |96.1%   |
-|ReLU+ECA  |96.471% |eca    |96.1%   |eca     |96.1%   |
-|Swish+ECA |97.255% |eca    |96.1%   |eca     |96.1%   |
-|Hswish+ECA|97.157% |eca    |96.1%   |eca     |96.1%   |
+|ReLU+SE   |96.814% |4.180M |0.394G  |eca     |96.1%   |
+|Swish+SE  |97.549% |4.180M |0.397G  |eca     |96.1%   |
+|Hswish+SE |97.206% |4.180M |0.403G  |eca     |96.1%   |
+|ReLU+ECA  |96.471% |3.545M |0.394G  |eca     |96.1%   |
+|Swish+ECA |97.255% |3.545M |0.397G  |eca     |96.1%   |
+|Hswish+ECA|97.157% |3.545M |0.403G  |eca     |96.1%   |
 
 |Method          |Top1 Acc|Params |FLOPs   |Training|Latency |
 | :----          |:----:  |:----: |:----:  |:----:  |:----:  |
@@ -50,12 +50,12 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 ### Leaf dataset
 |Method    |Top1 Acc|Params |FLOPs   |Training|Latency |
 | :----    |:----:  |:----: |:----:  |:----:  |:----:  |
-|ReLU+SE   |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Swish+SE  |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Hswish+SE |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|ReLU+ECA  |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Swish+ECA |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Hswish+ECA|96.1%   |eca    |96.1%   |eca     |96.1%   |
+|ReLU+SE   |96.1%   |4.285M |0.394G   |eca     |96.1%   |
+|Swish+SE  |96.1%   |4.285M |0.397G   |eca     |96.1%   |
+|Hswish+SE |96.1%   |4.285M |0.404G   |eca     |96.1%   |
+|ReLU+ECA  |96.1%   |3.650M |0.394G  |eca     |96.1%   |
+|Swish+ECA |96.1%   |3.650M |0.397G   |eca     |96.1%   |
+|Hswish+ECA|96.1%   |3.650M |0.403G   |eca     |96.1%   |
 
 |Method          |Top1 Acc|Params |FLOPs   |Training|Latency |
 | :----          |:----:  |:----: |:----:  |:----:  |:----:  |
@@ -68,14 +68,14 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 |ECA-EfficientNet|96.1%   |eca    |96.1%   |eca     |96.1%   |
 
 ### Fruit360 dataset
-|Method    |Top1 Acc|Params |FLOPs   |Training|Latency |
-| :----    |:----:  |:----: |:----:  |:----:  |:----:  |
-|ReLU+SE   |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Swish+SE  |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Hswish+SE |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|ReLU+ECA  |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Swish+ECA |96.1%   |eca    |96.1%   |eca     |96.1%   |
-|Hswish+ECA|96.1%   |eca    |96.1%   |eca     |96.1%   |
+|Method    |Top1 Acc|Params |FLOPs  |Training|Latency |
+| :----    |:----:  |:----: |:----: |:----:  |:----:  |
+|ReLU+SE   |96.1%   |4.217M |0.394G |eca     |96.1%   |
+|Swish+SE  |96.1%   |4.217M |0.397G |eca     |96.1%   |
+|Hswish+SE |96.1%   |4.217M |0.403G |eca     |96.1%   |
+|ReLU+ECA  |96.1%   |3.582M |0.394G |eca     |96.1%   |
+|Swish+ECA |96.1%   |3.582M |0.397G |eca     |96.1%   |
+|Hswish+ECA|96.1%   |3.582M |0.403G |eca     |96.1%   |
 
 |Method          |Top1 Acc|Params |FLOPs   |Training|Latency |
 | :----          |:----:  |:----: |:----:  |:----:  |:----:  |

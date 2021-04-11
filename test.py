@@ -11,8 +11,10 @@ def getflops(model):
 
 if __name__ == '__main__':
     hwd = 224
-    class_total = 1000
-    model = models.myEfficientNetB0(input_shape=(hwd, hwd, 3), classes=class_total)
+    class_total = 131
+    at = 'eca'
+    af = 'hswish'
+    model = models.myEfficientNet(attention=at, activation=af, input_shape=(hwd, hwd, 3), classes=class_total)
     flops = getflops(model)
     print(flops)
 
