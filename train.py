@@ -28,7 +28,7 @@ opt = parser.parse_args()
 # learn rate
 def lr_schedule(epoch):
     lr = opt.lr
-    arr = [50, 100, 150, 200]
+    arr = [50, 100, 200, 250]
     if epoch > arr[3]:
         lr *= 0.0001
     elif epoch > arr[2]:
