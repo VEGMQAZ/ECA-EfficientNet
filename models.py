@@ -160,7 +160,7 @@ def myEfficientNet(attention='se', activation='swish', input_shape=(224, 224, 3)
             if layeri.name in [j.name for j in pre_trained_model.layers]:
                 temp = pre_trained_model.get_layer(layeri.name).get_weights()
                 layeri.set_weights(temp)
-    pre_trained_model = my_model
+        pre_trained_model = my_model
     x = pre_trained_model.output
     x = GlobalAveragePooling2D(name='avg_pool')(x)
     x = Dropout(0.2, name='top_dropout')(x)

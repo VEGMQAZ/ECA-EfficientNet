@@ -22,6 +22,7 @@ parser.add_argument("--at", type=str, default='eca', help="is se or eca")
 parser.add_argument("--load", type=int, default=0, help="number of models")
 parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
 parser.add_argument("--img_size", type=int, default=224, help="size of each image dimension")
+parser.add_argument("--num", type=int, default=1, help="number of running train.py")
 opt = parser.parse_args()
 print(opt)
 path = 'D:/deeplearning/datasets/imageclassification/'
@@ -115,13 +116,33 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
     f.close()
     return modelnum
 
+def times(x=0):
+    arr_data = ['Flower', 'Leaf', 'Fruit']
+    arr_at = ['se', 'eca']
+    arr_af = ['hswish', 'swish', 'relu']
+    num = 0
+    for i in range(len(arr_data)):
+        for j in range(len(arr_at)):
+            for k in range(len(arr_af)):
+                num = num + 1
+                if num == x:
+                    opt.data = arr_data[i]
+                    opt.at = arr_at[j]
+                    opt.af = arr_af[k]
+                    print('{} {} {}'.format(opt.data, opt.at, opt.af))
+                    break
+
 if __name__ == '__main__':
-    for i in range(1):
-        if i != 0:
-            time.sleep(60 * 2)
-        p = Process(target=trainmodel)
-        p.start()
-        p.join()
+    for i in range(opt.num):
+        times(i+1)
+        trainmodel()
+    # for i in range(opt.num):
+    #     times(i+1)
+    #     if i != 0:
+    #         time.sleep(60 * 2)
+    #     p = Process(target=trainmodel)
+    #     p.start()
+    #     p.join()
     pass
 
 # 2021-04-10 guangjinzheng tensorflow efficientnet
