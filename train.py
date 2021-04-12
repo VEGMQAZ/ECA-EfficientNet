@@ -135,7 +135,7 @@ def times(x=0):
 
 if __name__ == '__main__':
     modelx = ['VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169', 'NASNetMobile', 'MobileNetV2']
-    arr_data = ['Flower', 'Leaf', 'Fruit']
+    arr_data = ['Flower', 'Leaf']
     for d in arr_data:
         opt.data = d
         for i in modelx:
