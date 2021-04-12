@@ -25,7 +25,7 @@ class Testefn(object):
                                            input_shape=self.input_shape, classes=self.classes)
         self.model.compile(optimizer=tf.keras.optimizers.Adam(1e-5), loss='categorical_crossentropy',
                            metrics='accuracy')
-        if self.path_model is not '':
+        if self.path_model != '':
             self.model.load_weights(self.path_model)
         self.test_data = ImageDataGenerator(rescale=1.0 / 255.).flow_from_directory(
             self.path, batch_size=self.batch_size, class_mode='categorical',
@@ -91,9 +91,8 @@ if __name__ == '__main__':
     arr_data = ['Leaf', 'Fruit', 'Flower']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(dataset=arr_data[2], attention=arr_at[1], activation=arr_af[2],
-                   pathmodel='20210411-101023-0.105127-97.7451.h5')
+    test = Testefn(dataset=arr_data[2], attention=arr_at[1], activation=arr_af[1],
+                   pathmodel='')
     flops = test.all()
-
 
 # 2021-04-09 guangjinzheng

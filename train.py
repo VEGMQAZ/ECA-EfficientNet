@@ -41,7 +41,7 @@ def lr_schedule(epoch):
     return lr
 
 # train model
-def trainmodel():
+def trainmodel(modelx='EfficientNetB0'):
     path = 'D:/deeplearning/datasets/imageclassification/'
     if opt.data in 'Fruits360-131':
         path += 'Fruits360-131/'
@@ -50,9 +50,10 @@ def trainmodel():
     else:
         path += 'Flower-102/'
     classes = int(path.split('-')[-1].split('/')[0])
-    modelx = 'EfficientNetB0'
     print(opt)
     model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
+    if modelx != 'EfficientNetB0':
+        model = models.mymodels(model_str=modelx, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='precision'),
@@ -117,7 +118,7 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
     return modelnum
 
 def times(x=0):
-    arr_data = ['Leaf', 'Fruit', 'Flower']
+    arr_data = ['Flower', 'Leaf', 'Fruit']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
     num = 0
@@ -133,9 +134,15 @@ def times(x=0):
                     break
 
 if __name__ == '__main__':
-    for i in range(opt.num):
-        times(i+1)
-        trainmodel()
+    modelx = ['VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169', 'NASNetMobile', 'MobileNetV2']
+    arr_data = ['Flower', 'Leaf', 'Fruit']
+    for d in arr_data:
+        opt.data = d
+        for i in modelx:
+            trainmodel(i)
+    # for i in range(opt.num):
+    #     times(i+1)
+    #     trainmodel()
     # for i in range(opt.num):
     #     times(i+1)
     #     if i != 0:

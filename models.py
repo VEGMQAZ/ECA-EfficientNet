@@ -165,10 +165,23 @@ def myEfficientNet(attention='se', activation='swish', input_shape=(224, 224, 3)
     x = layers.Dropout(0.2, name='top_dropout')(x)
     predictions = layers.Dense(classes, activation='softmax')(x)
     model = Model(inputs=pre_trained_model.input, outputs=predictions)
-    # for layer in model.layers[:-6]:
-    #     layer.trainable = False
-    #     print(layer.name)
     model.summary()
+    return model
+
+def mymodels(model_str='mobilenet', input_shape=(224, 224, 3), classes=1000):
+    model = ''
+    if model_str in 'VGG16':
+        model = myVGG16(input_shape=input_shape, classes=classes)
+    elif model_str in 'ResNetV2101':
+        model = myResNetV2101(input_shape=input_shape, classes=classes)
+    elif model_str in 'InceptionV3':
+        model = myInceptionV3(input_shape=input_shape, classes=classes)
+    elif model_str in 'DenseNet169':
+        model = myDenseNet169(input_shape=input_shape, classes=classes)
+    elif model_str in 'NASNetMobile':
+        model = myNASNetMobile(input_shape=input_shape, classes=classes)
+    elif model_str in 'MobileNetV2':
+        model = myMobileNetV2(input_shape=input_shape, classes=classes)
     return model
 
 if __name__ == '__main__':
@@ -182,6 +195,5 @@ if __name__ == '__main__':
     myDenseNet201()
     myNASNetMobile()
     myEfficientNetB0()
-    pass
 
 # 2020-11-09 guangjinzheng models
