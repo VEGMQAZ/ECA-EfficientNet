@@ -90,7 +90,13 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 
 ## History
 
-### 2021-04-11 guangjinzheng
+### 2021-04-13 guangjinzheng
+
+add test vgg  https://github.com/keras-team/keras-applications 
+
+add mobilenetv3small
+
+### 2021-04-12 guangjinzheng
 
 add test models 
 

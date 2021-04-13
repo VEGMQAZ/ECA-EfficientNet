@@ -11,7 +11,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # EfficientNet B0 Tesgt data
 class Testefn(object):
     def __init__(self, path='D:/deeplearning/datasets/imageclassification/', dataset='Flower', pathmodel='',
-                 attention='se', activation='swish', batch_size=32, input_shape=(224, 224, 3)):
+                 modelx='EfficientNetB0', attention='se', activation='swish', batch_size=32, input_shape=(224, 224, 3)):
         self.datasets = os.listdir(path)
         self.dataset = [dataseti for dataseti in self.datasets if dataset in dataseti][0]
         self.path = '{}/{}/test/'.format(path, self.dataset)
@@ -21,8 +21,11 @@ class Testefn(object):
         self.input_shape = input_shape
         self.attention = attention
         self.activation = activation
+        self.modelx = modelx
         self.model = models.myEfficientNet(attention=self.attention, activation=self.activation,
                                            input_shape=self.input_shape, classes=self.classes)
+        if self.modelx != 'EfficientNetB0':
+            self.model = models.mymodels(model_str=self.modelx, input_shape=self.input_shape, classes=self.classes)
         self.model.compile(optimizer=tf.keras.optimizers.Adam(1e-5), loss='categorical_crossentropy',
                            metrics='accuracy')
         if self.path_model != '':
@@ -88,11 +91,13 @@ class Testefn(object):
         print('Top1: {:.3f}% Top5: {:.3f}% FLOPs: {:.3f}G FLOPs: {:.3f}ms'.format(top1, top5, flop, latency))
 
 if __name__ == '__main__':
+    modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169',
+              'NASNetMobile', 'MobileNetV2', 'MobileNetV2']
     arr_data = ['Leaf', 'Fruit', 'Flower']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(dataset=arr_data[2], attention=arr_at[1], activation=arr_af[1],
+    test = Testefn(modelx=modelx[0], dataset=arr_data[2], attention=arr_at[0], activation=arr_af[0],
                    pathmodel='')
-    flops = test.all()
+    test.all()
 
-# 2021-04-09 guangjinzheng
+# 2021-04-13 guangjinzheng

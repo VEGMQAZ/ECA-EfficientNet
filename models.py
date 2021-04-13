@@ -3,6 +3,7 @@ from tensorflow.python.keras.applications.resnet_v2 import ResNet101V2
 from tensorflow.python.keras.applications.inception_v3 import InceptionV3
 from tensorflow.python.keras.applications.xception import Xception
 from tensorflow.python.keras.applications.mobilenet_v2 import MobileNetV2
+from tensorflow.python.keras.applications.mobilenet_v3 import MobileNetV3Small
 from tensorflow.python.keras.applications.densenet import DenseNet201
 from tensorflow.python.keras.applications.densenet import DenseNet169
 from tensorflow.python.keras.applications.nasnet import NASNetMobile
@@ -97,6 +98,22 @@ def myMobileNetV2(input_shape=(224, 224, 3), classes=1000):
     model.summary()
     return model
 
+# MobileNetV3Small
+def myMobileNetV3Small(input_shape=(224, 224, 3), classes=1000):
+    pre_trained_model = MobileNetV3Small(input_shape=input_shape, weights='imagenet', include_top=False)
+    # pre_trained_model = MobileNetV3Small(input_shape=input_shape, weights='imagenet', include_top=True)
+    # pre_trained_model.summary()
+    x = pre_trained_model.output
+    x = layers.GlobalAveragePooling2D()(x)
+    x = layers.Reshape((1, 1, 1024))(x)
+    x = layers.Dropout(0.2)(x)
+    x = layers.Conv2D(classes, kernel_size=1, padding='same', name='Logits')(x)
+    x = layers.Flatten()(x)
+    x = layers.Activation(activation='softmax', name='Predictions')(x)
+    model = Model(inputs=pre_trained_model.input, outputs=x)
+    model.summary()
+    return model
+
 # DenseNet201
 def myDenseNet201(input_shape=(224, 224, 3), classes=1000):
     pre_trained_model = DenseNet201(input_shape=input_shape, weights='imagenet', include_top=False)
@@ -182,6 +199,8 @@ def mymodels(model_str='mobilenet', input_shape=(224, 224, 3), classes=1000):
         model = myNASNetMobile(input_shape=input_shape, classes=classes)
     elif model_str in 'MobileNetV2':
         model = myMobileNetV2(input_shape=input_shape, classes=classes)
+    elif model_str in 'MobileNetV3Small':
+        model = myMobileNetV3Small(input_shape=input_shape, classes=classes)
     return model
 
 if __name__ == '__main__':
@@ -191,6 +210,7 @@ if __name__ == '__main__':
     myInceptionV3()
     myXception()
     myMobileNetV2()
+    myMobileNetV3Small()
     myDenseNet169()
     myDenseNet201()
     myNASNetMobile()

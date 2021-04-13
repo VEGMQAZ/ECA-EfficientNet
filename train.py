@@ -134,12 +134,10 @@ def times(x=0):
                     break
 
 if __name__ == '__main__':
-    modelx = ['VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169', 'NASNetMobile', 'MobileNetV2']
-    arr_data = ['Flower', 'Leaf']
-    for d in arr_data:
-        opt.data = d
-        for i in modelx:
-            trainmodel(i)
+    modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169',
+              'NASNetMobile', 'MobileNetV2', 'MobileNetV2']
+    for i in modelx:
+        trainmodel(i)
     # for i in range(opt.num):
     #     times(i+1)
     #     trainmodel()
