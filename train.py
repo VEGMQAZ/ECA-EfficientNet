@@ -141,7 +141,8 @@ if __name__ == '__main__':
               'MobileNetV2', 'EfficientNetB0', 'MobileNetV3']
     opt.data = 'Leaf'
     for i in modelx:
-        trainmodel(i)
+        opt.models = i
+        trainmodel()
     # for i in range(opt.num):
     #     times(i+1)
     #     trainmodel()
