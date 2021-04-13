@@ -19,7 +19,7 @@ parser.add_argument("--models", type=str, default='EfficientNetB0', help="is Eff
                     ResNetV2101, InceptionV3, DenseNet169, NASNetMobile, MobileNetV2 or MobileNetV3")
 parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
 parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
-parser.add_argument("--af", type=str, default='swish', help="is relu, swish or hswish")
+parser.add_argument("--af", type=str, default='hswish', help="is relu, swish or hswish")
 parser.add_argument("--at", type=str, default='eca', help="is se or eca")
 parser.add_argument("--load", type=int, default=0, help="number of models")
 parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
@@ -136,9 +136,12 @@ def times(x=0):
                     break
 
 if __name__ == '__main__':
-    trainmodel()
-    # for i in modelx:
-    #     trainmodel(i)
+    # trainmodel()
+    modelx = ['ResNetV2101', 'InceptionV3', 'DenseNet169', 'NASNetMobile',
+              'MobileNetV2', 'EfficientNetB0', 'MobileNetV3']
+    opt.data = 'Leaf'
+    for i in modelx:
+        trainmodel(i)
     # for i in range(opt.num):
     #     times(i+1)
     #     trainmodel()
