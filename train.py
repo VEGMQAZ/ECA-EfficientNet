@@ -15,6 +15,8 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data", type=str, default='Flower', help="is Flower, Fruit or Leaf")
+parser.add_argument("--models", type=str, default='EfficientNetB0', help="is EfficientNetB0, VGG16\
+                    ResNetV2101, InceptionV3, DenseNet169, NASNetMobile, MobileNetV2 or MobileNetV3")
 parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
 parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
 parser.add_argument("--af", type=str, default='swish', help="is relu, swish or hswish")
@@ -41,7 +43,7 @@ def lr_schedule(epoch):
     return lr
 
 # train model
-def trainmodel(modelx='EfficientNetB0'):
+def trainmodel():
     path = 'D:/deeplearning/datasets/imageclassification/'
     if opt.data in 'Fruits360-131':
         path += 'Fruits360-131/'
@@ -52,8 +54,8 @@ def trainmodel(modelx='EfficientNetB0'):
     classes = int(path.split('-')[-1].split('/')[0])
     print(opt)
     model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
-    if modelx != 'EfficientNetB0':
-        model = models.mymodels(model_str=modelx, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
+    if opt.models != 'EfficientNetB0':
+        model = models.mymodels(model_str=opt.models, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='precision'),
@@ -76,7 +78,7 @@ def trainmodel(modelx='EfficientNetB0'):
     if not os.path.exists('logs/cp'):
         os.makedirs('logs/cp')
     timenow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    dirs = 'logs/{}/{}/'.format(modelx, timenow)
+    dirs = 'logs/{}/{}/'.format(opt.models, timenow)
     tensorboard_callback = TensorBoard(log_dir="{}".format(dirs), histogram_freq=1)
     cp_callback = ModelCheckpoint(filepath="logs/cp/cp-{epoch:04d}.h5", period=1, save_weights_only=True, verbose=1)
     # reduce_lr = ReduceLROnPlateau(monitor='val_loss', verbose=1, factor=0.2, patience=5, min_lr=1e-8)
@@ -86,7 +88,7 @@ def trainmodel(modelx='EfficientNetB0'):
         model.load_weights('logs/cp/cp-{:04d}.h5'.format(opt.load))
     # history = model.fit(train_generator, epochs=epoch, validation_data=valid_generator,
     history = model.fit(train_generator, epochs=opt.epochs, callbacks=[tensorboard_callback, cp_callback])
-    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}-plt.csv'.format(dirs, modelx, timenow))
+    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}-plt.csv'.format(dirs, opt.models, timenow))
     model.load_weights('logs/cp/cp-{:04d}.h5'.format(modelnum))
     score = model.evaluate(test_generator)
     model.save('{}/{}-{:.6f}-{:.4f}.h5'.format(dirs, timenow, score[0], score[1]*100))
@@ -134,10 +136,9 @@ def times(x=0):
                     break
 
 if __name__ == '__main__':
-    modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169',
-              'NASNetMobile', 'MobileNetV2', 'MobileNetV2']
-    for i in modelx:
-        trainmodel(i)
+    trainmodel()
+    # for i in modelx:
+    #     trainmodel(i)
     # for i in range(opt.num):
     #     times(i+1)
     #     trainmodel()

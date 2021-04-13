@@ -8,7 +8,7 @@ from tensorflow.python.keras.applications.densenet import DenseNet201
 from tensorflow.python.keras.applications.densenet import DenseNet169
 from tensorflow.python.keras.applications.nasnet import NASNetMobile
 import tensorflow.python.keras.applications.efficientnet as efn
-from tensorflow.keras import Model
+from tensorflow.python.keras import Model
 import tensorflow.keras.layers as layers
 import applications.efficientnet as eca
 import af   # hswish
@@ -100,17 +100,14 @@ def myMobileNetV2(input_shape=(224, 224, 3), classes=1000):
 
 # MobileNetV3Small
 def myMobileNetV3Small(input_shape=(224, 224, 3), classes=1000):
-    pre_trained_model = MobileNetV3Small(input_shape=input_shape, weights='imagenet', include_top=False)
     # pre_trained_model = MobileNetV3Small(input_shape=input_shape, weights='imagenet', include_top=True)
     # pre_trained_model.summary()
+    pre_trained_model = MobileNetV3Small(input_shape=input_shape, weights='imagenet', include_top=False)
     x = pre_trained_model.output
-    x = layers.GlobalAveragePooling2D()(x)
-    x = layers.Reshape((1, 1, 1024))(x)
+    x = layers.GlobalAveragePooling2D(name='avg_pool')(x)
     x = layers.Dropout(0.2)(x)
-    x = layers.Conv2D(classes, kernel_size=1, padding='same', name='Logits')(x)
-    x = layers.Flatten()(x)
-    x = layers.Activation(activation='softmax', name='Predictions')(x)
-    model = Model(inputs=pre_trained_model.input, outputs=x)
+    predictions = layers.Dense(classes, activation='softmax')(x)
+    model = Model(inputs=pre_trained_model.input, outputs=predictions)
     model.summary()
     return model
 

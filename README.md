@@ -94,7 +94,7 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 
 add test vgg  https://github.com/keras-team/keras-applications 
 
-add mobilenetv3small
+add mobilenetv3 small modify
 
 ### 2021-04-12 guangjinzheng
 
