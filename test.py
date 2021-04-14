@@ -72,7 +72,7 @@ class Testefn(object):
         print('true:{}  total:{}'.format(tf, total))
         top5 = 100.0 * tf1 / total
         print('Top5 Accuracy: {:.3f}%'.format(top5))
-        latency = 1000 * sum_times / total
+        latency = total / sum_times
         return top5, latency
 
     # Calculae FLOPs
@@ -88,7 +88,7 @@ class Testefn(object):
         flop = self.flops()
         self.model.summary()
         print('{} {} {}'.format(self.dataset, self.activation, self.attention))
-        print('Top1: {:.3f}% Top5: {:.3f}% FLOPs: {:.3f}G FLOPs: {:.3f}ms'.format(top1, top5, flop, latency))
+        print('Top1: {:.3f}% Top5: {:.3f}% FLOPs: {:.3f}G FLOPs: {:.3f}FPS'.format(top1, top5, flop, latency))
 
 if __name__ == '__main__':
     modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169',
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     arr_data = ['Leaf', 'Fruit', 'Flower']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(modelx=modelx[7], dataset=arr_data[2], attention=arr_at[0], activation=arr_af[0],
+    test = Testefn(modelx=modelx[0], dataset=arr_data[2], attention=arr_at[1], activation=arr_af[1],
                    pathmodel='')
     test.all()
 
