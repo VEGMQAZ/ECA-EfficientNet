@@ -92,11 +92,11 @@ class Testefn(object):
 
 if __name__ == '__main__':
     modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169',
-              'NASNetMobile', 'MobileNetV2', 'MobileNetV3']
+              'NASNetMobile', 'MobileNetV3']
     arr_data = ['Leaf', 'Fruit', 'Flower']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(modelx=modelx[0], dataset=arr_data[2], attention=arr_at[1], activation=arr_af[1],
+    test = Testefn(modelx=modelx[4], dataset=arr_data[0], attention=arr_at[1], activation=arr_af[0],
                    pathmodel='')
     test.all()
 

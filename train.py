@@ -16,11 +16,12 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 parser = argparse.ArgumentParser()
 parser.add_argument("--data", type=str, default='Flower', help="is Flower, Fruit or Leaf")
 parser.add_argument("--models", type=str, default='EfficientNetB0', help="is EfficientNetB0, VGG16\
-                    ResNetV2101, InceptionV3, DenseNet169, NASNetMobile, MobileNetV2 or MobileNetV3")
+                    ResNetV2101, InceptionV3, DenseNet169, NASNetMobile or MobileNetV3")
 parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
 parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
 parser.add_argument("--af", type=str, default='hswish', help="is relu, swish or hswish")
 parser.add_argument("--at", type=str, default='eca', help="is se or eca")
+parser.add_argument("--dirs", type=str, default='', help="is model data path")
 parser.add_argument("--load", type=int, default=0, help="number of models")
 parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
 parser.add_argument("--img_size", type=int, default=224, help="size of each image dimension")
@@ -75,23 +76,21 @@ def trainmodel():
     test_generator = test_datagen.flow_from_directory("{}/test/".format(path), batch_size=opt.batch_size,
                                                       class_mode='categorical', target_size=(opt.img_size, opt.img_size))
     # callback
-    if not os.path.exists('logs/cp'):
-        os.makedirs('logs/cp')
     timenow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    dirs = 'logs/{}/{}/'.format(opt.models, timenow)
-    tensorboard_callback = TensorBoard(log_dir="{}".format(dirs), histogram_freq=1)
-    cp_callback = ModelCheckpoint(filepath="logs/cp/cp-{epoch:04d}.h5", period=1, save_weights_only=True, verbose=1)
+    opt.dirs = 'logs/{}/{}/'.format(opt.models, timenow)
+    os.makedirs('{}epoch'.format(opt.dirs))
+    tensorboard_callback = TensorBoard(log_dir="{}".format(opt.dirs), histogram_freq=1)
+    cp_callback = ModelCheckpoint(filepath=opt.dirs+'epoch/{epoch:04d}.h5', period=1, save_weights_only=True, verbose=1)
     # reduce_lr = ReduceLROnPlateau(monitor='val_loss', verbose=1, factor=0.2, patience=5, min_lr=1e-8)
     # lr_scheduler = tf.keras.callbacks.LearningRateScheduler(lr_schedule)
     # load weights
     if opt.load > 0:
-        model.load_weights('logs/cp/cp-{:04d}.h5'.format(opt.load))
-    # history = model.fit(train_generator, epochs=epoch, validation_data=valid_generator,
+        model.load_weights('{}{:04d}.h5'.format(opt.dirs, opt.load))
     history = model.fit(train_generator, epochs=opt.epochs, callbacks=[tensorboard_callback, cp_callback])
-    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}-plt.csv'.format(dirs, opt.models, timenow))
-    model.load_weights('logs/cp/cp-{:04d}.h5'.format(modelnum))
+    modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}.csv'.format(opt.dirs, opt.models, timenow))
+    model.load_weights('{}epoch/{:04d}.h5'.format(opt.dirs, modelnum))
     score = model.evaluate(test_generator)
-    model.save('{}/{}-{:.6f}-{:.4f}.h5'.format(dirs, timenow, score[0], score[1]*100))
+    model.save('{}{}-{:.6f}-{:.4f}.h5'.format(opt.dirs, opt.models, score[0], score[1]*100))
     print('{}'.format(score))
 
 # save loss acc
@@ -105,7 +104,7 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
         writer.writeheader()
         for i in range(epochs):
             print('{}/{}'.format(i + 1, opt.epochs))
-            model.load_weights("logs/cp/cp-{:04d}.h5".format(i + 1))
+            model.load_weights("{}epoch/{:04d}.h5".format(opt.dirs, i + 1))
             score = model.evaluate(test)
             writer.writerow({str_lossacc[0]: history[str_lossacc[0]][i], str_lossacc[1]: history[str_lossacc[1]][i],
                              str_lossacc[2]: history[str_lossacc[2]][i], str_lossacc[3]: history[str_lossacc[3]][i],
@@ -155,4 +154,4 @@ if __name__ == '__main__':
     #     p.join()
     pass
 
-# 2021-04-10 guangjinzheng tensorflow efficientnet
+# 2021-04-14 guangjinzheng tensorflow efficientnet
