@@ -91,11 +91,11 @@ class Testefn(object):
         print('Top1: {:.3f}% Top5: {:.3f}% FLOPs: {:.3f}G FLOPs: {:.3f}FPS'.format(top1, top5, flop, latency))
 
 if __name__ == '__main__':
-    modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'DenseNet169', 'MobileNetV3', 'NASNetMobile']
+    modelx = ['EfficientNetB0', 'VGG16', 'ResNet101V2', 'InceptionV3', 'DenseNet169', 'MobileNetV3', 'NASNetMobile']
     arr_data = ['Leaf', 'Fruit', 'Flower']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(modelx=modelx[6], dataset=arr_data[0], attention=arr_at[0], activation=arr_af[1],
+    test = Testefn(modelx=modelx[4], dataset=arr_data[0], attention=arr_at[0], activation=arr_af[1],
                    pathmodel='')
     test.all()
 

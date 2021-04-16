@@ -136,7 +136,7 @@ def times(x=0):
 
 if __name__ == '__main__':
     trainmodel()
-    # modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'NASNetMobile',
+    # modelx = ['EfficientNetB0', 'VGG16', 'ResNet101V2', 'InceptionV3', 'NASNetMobile',
     #           'DenseNet169', 'MobileNetV3']
     # opt.data = 'Leaf'
     # for i in modelx:

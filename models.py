@@ -186,7 +186,7 @@ def mymodels(model_str='mobilenet', input_shape=(224, 224, 3), classes=1000):
     model = ''
     if model_str in 'VGG16':
         model = myVGG16(input_shape=input_shape, classes=classes)
-    elif model_str in 'ResNetV2101':
+    elif model_str in 'ResNet101V2':
         model = myResNetV2101(input_shape=input_shape, classes=classes)
     elif model_str in 'InceptionV3':
         model = myInceptionV3(input_shape=input_shape, classes=classes)
