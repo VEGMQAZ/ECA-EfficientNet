@@ -64,7 +64,7 @@ def trainmodel():
     os.makedirs('{}epoch'.format(opt.dirs))
     tensorboard_callback = TensorBoard(log_dir="{}".format(opt.dirs), histogram_freq=1)
     cp_callback = ModelCheckpoint(filepath=opt.dirs+'epoch/{epoch:04d}.h5', period=1, save_weights_only=True, verbose=1)
-    reduce_lr = ReduceLROnPlateau(monitor='loss', verbose=1, factor=0.2, patience=5)
+    reduce_lr = ReduceLROnPlateau(monitor='accuracy', verbose=1, factor=0.2, patience=5)
     # load weights
     if opt.load > 0:
         model.load_weights('logs/EfficientNetB0/20210417-022350/epoch/0050.h5')
