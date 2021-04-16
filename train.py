@@ -28,21 +28,6 @@ parser.add_argument("--img_size", type=int, default=224, help="size of each imag
 parser.add_argument("--num", type=int, default=1, help="number of running train.py")
 opt = parser.parse_args()
 
-# learn rate
-def lr_schedule(epoch):
-    lr = opt.lr
-    arr = [50, 100, 200, 250]
-    if epoch > arr[3]:
-        lr *= 0.0001
-    elif epoch > arr[2]:
-        lr *= 0.001
-    elif epoch > arr[1]:
-        lr *= 0.01
-    elif epoch > arr[0]:
-        lr *= 0.1
-    print('Epoch: {}  Learning rate: {:.1e}'.format(epoch, lr))
-    return lr
-
 # train model
 def trainmodel():
     path = 'D:/deeplearning/datasets/imageclassification/'
@@ -59,34 +44,31 @@ def trainmodel():
         model = models.mymodels(model_str=opt.models, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
-        tf.keras.metrics.Precision(name='precision'),
-        tf.keras.metrics.Recall(name='recall'),
-        tfa.metrics.F1Score(name='f1score', num_classes=classes)
+        tf.keras.metrics.Precision(name='Precision'),
+        tf.keras.metrics.Recall(name='Recall'),
+        tfa.metrics.F1Score(name='F1Score', num_classes=classes)
     ]
-    model.compile(optimizer=Adam(lr_schedule(0)), loss='categorical_crossentropy', metrics=METRICS)
-    # train data
+    model.compile(optimizer=Adam(opt.lr), loss='categorical_crossentropy', metrics=METRICS)
+    # load data
     train_datagen = ImageDataGenerator(rescale=1./255., rotation_range=40, width_shift_range=0.2,
                                        height_shift_range=0.2, shear_range=0.2, zoom_range=0.2,
                                        horizontal_flip=True)
     test_datagen = ImageDataGenerator(rescale=1.0/255.)
-    train_generator = train_datagen.flow_from_directory("{}/train/".format(path), batch_size=opt.batch_size,
-                                                        class_mode='categorical', target_size=(opt.img_size, opt.img_size))
-    # valid_generator = test_datagen.flow_from_directory("{}/valid/".format(path), batch_size=batch_sizes,
-    #                                                    class_mode='categorical', target_size=(w, h))
-    test_generator = test_datagen.flow_from_directory("{}/test/".format(path), batch_size=opt.batch_size,
-                                                      class_mode='categorical', target_size=(opt.img_size, opt.img_size))
+    train_generator = train_datagen.flow_from_directory("{}/train/".format(path),
+                      batch_size=opt.batch_size, class_mode='categorical', target_size=(opt.img_size, opt.img_size))
+    test_generator = test_datagen.flow_from_directory("{}/test/".format(path),
+                      batch_size=opt.batch_size, class_mode='categorical', target_size=(opt.img_size, opt.img_size))
     # callback
     timenow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     opt.dirs = 'logs/{}/{}/'.format(opt.models, timenow)
     os.makedirs('{}epoch'.format(opt.dirs))
     tensorboard_callback = TensorBoard(log_dir="{}".format(opt.dirs), histogram_freq=1)
     cp_callback = ModelCheckpoint(filepath=opt.dirs+'epoch/{epoch:04d}.h5', period=1, save_weights_only=True, verbose=1)
-    # reduce_lr = ReduceLROnPlateau(monitor='val_loss', verbose=1, factor=0.2, patience=5, min_lr=1e-8)
-    # lr_scheduler = tf.keras.callbacks.LearningRateScheduler(lr_schedule)
+    reduce_lr = ReduceLROnPlateau(monitor='loss', verbose=1, factor=0.2, patience=5)
     # load weights
     if opt.load > 0:
-        model.load_weights('{}{:04d}.h5'.format(opt.dirs, opt.load))
-    history = model.fit(train_generator, epochs=opt.epochs, callbacks=[tensorboard_callback, cp_callback])
+        model.load_weights('logs/EfficientNetB0/20210417-022350/epoch/0050.h5')
+    history = model.fit(train_generator, epochs=opt.epochs, callbacks=[tensorboard_callback, cp_callback, reduce_lr])
     modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}.csv'.format(opt.dirs, opt.models, timenow))
     model.load_weights('{}epoch/{:04d}.h5'.format(opt.dirs, modelnum))
     score = model.evaluate(test_generator)
@@ -95,8 +77,8 @@ def trainmodel():
 
 # save loss acc
 def history_csv(model, test, history, pathcsv='plt.csv'):
-    str_lossacc = ['loss', 'accuracy', 'precision', 'recall', 'id',
-                   'test_loss', 'test_accuracy', 'test_precision', 'test_recall']
+    str_lossacc = ['loss', 'accuracy', 'Precision', 'Recall', 'id',
+                   'test_loss', 'test_accuracy', 'test_Precision', 'test_Recall']
     epochs = len(history[str_lossacc[0]])
     modelmax, modelnum = 0, 0
     with open(pathcsv, 'w', newline='') as f:
