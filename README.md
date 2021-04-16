@@ -90,6 +90,10 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 
 ## History
 
+### 2021-04-16 guangjinzheng
+
+add data excel
+
 ### 2021-04-13 guangjinzheng
 
 add test vgg  https://github.com/keras-team/keras-applications 

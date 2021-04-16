@@ -135,13 +135,13 @@ def times(x=0):
                     break
 
 if __name__ == '__main__':
-    # trainmodel()
-    modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'NASNetMobile',
-              'DenseNet169', 'MobileNetV3']
-    opt.data = 'Le，af'
-    for i in modelx:
-        opt.models = i
-        trainmodel()
+    trainmodel()
+    # modelx = ['EfficientNetB0', 'VGG16', 'ResNetV2101', 'InceptionV3', 'NASNetMobile',
+    #           'DenseNet169', 'MobileNetV3']
+    # opt.data = 'Leaf'
+    # for i in modelx:
+    #     opt.models = i
+    #     trainmodel()
     # for i in range(opt.num):
     #     times(i+1)
     #     trainmodel()
@@ -154,4 +154,4 @@ if __name__ == '__main__':
     #     p.join()
     pass
 
-# 2021-04-14 guangjinzheng tensorflow efficientnet
+# 2021-04-16 guangjinzheng tensorflow efficientnet
