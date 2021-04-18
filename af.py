@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import MultipleLocator
 
 # 2021-04-10 guangjinzheng
 import tensorflow as tf
@@ -50,7 +51,20 @@ class myaf(object):
         print(self.hswish())
 
     def plot(self):
-        plt.plot(self.x, self.relu(), self.x, self.swish(), self.x, self.hswish())
+        sz = 14
+        plt.figure(dpi=150)
+        plt.xlabel('x', fontsize=sz)
+        plt.ylabel('f(x)', fontsize=sz)
+        plt.title('Activate Function')
+        plt.xlim([-7, 7])
+        plt.ylim([-1, 7])
+        plt.gca().xaxis.set_major_locator(MultipleLocator(2))
+        plt.gca().yaxis.set_major_locator(MultipleLocator(1))
+        plt.plot(self.x, self.relu(), label='relu')
+        plt.plot(self.x, self.swish(), label='swish')
+        plt.plot(self.x, self.hswish(), label='hswish')
+        # plt.plot(self.x, self.relu(), self.x, self.swish(), self.x, self.hswish())
+        plt.legend()
         plt.show()
 
     def sheet(self):
@@ -65,7 +79,7 @@ if __name__ == '__main__':
     x = np.linspace(-6, 6, 100)
     f = myaf(x)
     f.hswish_test()
-    f.sheet()
+    # f.sheet()
     f.plot()
 
 # 2021-04-10 guangjinzheng activate function
