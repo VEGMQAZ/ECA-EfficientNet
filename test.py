@@ -10,7 +10,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 # EfficientNet B0 Tesgt data
 class Testefn(object):
-    def __init__(self, path='D:/deeplearning/datasets/imageclassification/', dataset='Flower', pathmodel='',
+    def __init__(self, path='D:/deeplearning/datasets/imageclassification', dataset='Flower', pathmodel='',
                  modelx='EfficientNetB0', attention='se', activation='swish', batch_size=32, input_shape=(224, 224, 3)):
         self.datasets = os.listdir(path)
         self.dataset = [dataseti for dataseti in self.datasets if dataset in dataseti][0]
@@ -92,11 +92,9 @@ class Testefn(object):
 
 if __name__ == '__main__':
     modelx = ['EfficientNetB0', 'VGG16', 'ResNet101V2', 'InceptionV3', 'DenseNet169', 'MobileNetV3', 'NASNetMobile']
-    arr_data = ['Leaf', 'Fruit', 'Flower']
+    arr_data = ['Flavia', 'Flower', 'Leafsnap']
     arr_at = ['eca', 'se']
-    arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(modelx=modelx[0], dataset=arr_data[1], attention=arr_at[1], activation=arr_af[1],
-                   pathmodel='')
+    test = Testefn(modelx=modelx[0], dataset=arr_data[2], attention=arr_at[0], pathmodel='')
     test.all()
 
 # 2021-04-16 guangjinzheng
