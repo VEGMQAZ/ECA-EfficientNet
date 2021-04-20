@@ -2,36 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b026e855-50bc-4a47-8ea6-0ee4d4f211a1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/EfficientNet-ECA-Hswish.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EfficientNet-ECA-Hswish.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/csv-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/DenseNet169/DenseNet169-20210416-123354-0.103019-97.3529.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/InceptionV3/InceptionV3-20210413-092926-0.156639-96.6176.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/MobileNetV2/MobileNetV2-20210413-182843-0.147397-96.4706.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/MobileNetV3/MobileNetV3small-20210414-012246-0.244925-93.7255.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/NASNetMobile/NASNetMobile-20210413-153222-0.191634-95.6863.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/ResNetV2101/ResNetV2101-20210413-062815-0.211259-95.8824.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/VGG16/VGG16-20210413-041429-0.276691-94.7059.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/hswish-eca/EfficientNetB0-20210411-160914-0.130047-97.1569.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/hswish-se/EfficientNetB0-20210411-071226-0.115907-97.2059.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/relu-eca/EfficientNetB0-20210411-221557-0.160055-96.4706.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/relu-se/EfficientNetB0-20210411-130940-0.134950-96.8137.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/swish-eca/EfficientNetB0-20210411-024353-0.126740-97.2549.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/swish-eca/EfficientNetB0-20210411-191054-0.130453-96.9608.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/swish-se/EfficientNetB0-20210410-162051-0.102380-97.5980.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/swish-se/EfficientNetB0-20210410-193217-0.103841-97.5490.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Flower/swish-se/EfficientNetB0-20210411-101023-0.105127-97.7451.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/DenseNet169/DenseNet169-20210415-123323-0.177163-92.8427.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/InceptionV3/InceptionV3-20210415-090002-0.190328-92.5051.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/MobileNetV3/MobileNetV3-20210415-142016-0.300268-89.3991.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/NASNetMobile/NASNetMobile-20210415-103652-0.193372-92.1675.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/ResNetV2101/ResNet101V2-20210416-183452-0.223540-92.2350.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/VGG16/VGG16-20210415-002506-0.239317-91.5598.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/hswish-eca/EfficientNetB0-20210412-025453-0.209347-92.7752.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/hswish-se/EfficientNetB0-20210412-115441-0.373252-87.6435.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/relu-eca/EfficientNetB0-20210412-085510-0.197179-92.3700.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/relu-se/EfficientNetB0-20210412-180346-0.221890-91.2221.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/swish-eca/EfficientNetB0-20210412-055435-0.194782-92.0324.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Leafsnap/swish-se/EfficientNetB0-20210412-145701-0.251289-90.3444.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
@@ -70,7 +45,7 @@
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.splitdataset">
+  <component name="RunManager" selected="Python.train">
     <configuration name="af" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EfficientNet-ECA-Hswish" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -92,7 +67,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="models" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="pr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="EfficientNet-ECA-Hswish" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -104,28 +79,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/models.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pic" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="EfficientNet-ECA-Hswish" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pic.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pr.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -176,13 +130,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="EfficientNet-ECA-Hswish" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.splitdataset" />
+        <item itemvalue="Python.train" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.pr" />
+        <item itemvalue="Python.splitdataset" />
         <item itemvalue="Python.af" />
-        <item itemvalue="Python.pic" />
-        <item itemvalue="Python.models" />
       </list>
     </recent_temporary>
   </component>
@@ -210,9 +185,21 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="tests">
         <watch expression="tf.nn" language="Python" />
+      </configuration>
+      <configuration name="PythonConfigurationType">
+        <watch expression="y_true" language="Python" />
       </configuration>
     </watches-manager>
   </component>

@@ -46,13 +46,12 @@ def trainmodel():
     model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     if opt.models != 'EfficientNetB0':
         model = models.mymodels(model_str=opt.models, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
-    # METRICS = [
-    #     'accuracy',
-    #     tf.keras.metrics.Precision(name='Precision'),
-    #     tf.keras.metrics.Recall(name='Recall')
-    # ]
-    # model.compile(optimizer=Adam(opt.lr), loss='categorical_crossentropy', metrics=METRICS)
-    model.compile(optimizer=Adam(opt.lr), loss='categorical_crossentropy', metrics='accuracy')
+    METRICS = [
+        'accuracy',
+        tf.keras.metrics.Precision(name='Precision'),
+        tf.keras.metrics.Recall(name='Recall')
+    ]
+    model.compile(optimizer=Adam(opt.lr), loss='categorical_crossentropy', metrics=METRICS)
     # load data
     train_datagen = ImageDataGenerator(rescale=1./255., rotation_range=40, width_shift_range=0.2,
                                        height_shift_range=0.2, shear_range=0.2, zoom_range=0.2,
@@ -81,7 +80,8 @@ def trainmodel():
 
 # save loss acc
 def history_csv(model, test, history, pathcsv='plt.csv'):
-    str_lossacc = ['id', 'loss', 'accuracy', 'test_loss', 'test_accuracy']
+    str_lossacc = ['id', 'loss', 'accuracy', 'Precision', 'Recall',
+                   'test_loss', 'test_accuracy', 'test_Precision', 'test_Recall']
     epochs = len(history[str_lossacc[1]])
     modelmax, modelnum = 0, 0
     with open(pathcsv, 'w', newline='') as f:
@@ -93,7 +93,9 @@ def history_csv(model, test, history, pathcsv='plt.csv'):
             score = model.evaluate(test)
             writer.writerow({str_lossacc[0]: '{}'.format(i + 1),
                              str_lossacc[1]: history[str_lossacc[1]][i], str_lossacc[2]: history[str_lossacc[2]][i],
-                             str_lossacc[3]: '{}'.format(score[0]), str_lossacc[4]: '{}'.format(score[1])})
+                             str_lossacc[3]: history[str_lossacc[3]][i], str_lossacc[4]: history[str_lossacc[4]][i],
+                             str_lossacc[5]: '{}'.format(score[0]), str_lossacc[6]: '{}'.format(score[1]),
+                             str_lossacc[7]: '{}'.format(score[2]), str_lossacc[8]: '{}'.format(score[3])})
             if score[1] > modelmax:
                 modelmax = score[1]
                 modelnum = i + 1

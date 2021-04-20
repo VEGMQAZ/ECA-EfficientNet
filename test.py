@@ -1,4 +1,5 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import sklearn.metrics as metrics
 from keras_flops import get_flops
 import models
 import os
@@ -90,11 +91,41 @@ class Testefn(object):
         print('{} {} {}'.format(self.dataset, self.activation, self.attention))
         print('Top1: {:.3f}% Top5: {:.3f}% FLOPs: {:.3f}G FLOPs: {:.3f}FPS'.format(top1, top5, flop, latency))
 
+    # Pred
+    def ypred(self):
+        a = self.test_data
+        y_true = self.test_data.labels
+        y_pred = np.zeros(len(y_true), dtype=int)
+        for i in range(len(y_true)):
+            img = tf.keras.preprocessing.image.load_img(self.test_data.filepaths[i],
+                                                        target_size=(self.input_shape[0], self.input_shape[1]))
+            x = tf.keras.preprocessing.image.img_to_array(img)
+            x = np.expand_dims(x, axis=0)
+            x = x / 255.0
+            preds = self.model.predict(x)[0]
+            y_pred[i] = int(np.argmax(preds))
+        return y_true, y_pred
+
+    def acc(self):
+        y_true, y_pred = self.ypred()
+        m = tf.keras.metrics.Accuracy()
+        m.update_state(y_true=y_true, y_pred=y_pred)
+        a = m.result().numpy()
+        # a = metrics.confusion_matrix(y_true, y_predict)
+        # b = metrics.accuracy_score(y_true, y_predict)
+        # c = metrics.precision_score(y_true, y_predict, average='samples')
+        # d = metrics.recall_score(y_true, y_predict, average='samples')
+        # e = metrics.f1_score(y_true, y_predict, average='samples')
+        print('a')
+
+
 if __name__ == '__main__':
     modelx = ['EfficientNetB0', 'VGG16', 'ResNet101V2', 'InceptionV3', 'DenseNet169', 'MobileNetV3', 'NASNetMobile']
     arr_data = ['Flavia', 'Flower', 'Leafsnap']
     arr_at = ['eca', 'se']
-    test = Testefn(modelx=modelx[0], dataset=arr_data[2], attention=arr_at[0], pathmodel='')
+    test = Testefn(modelx=modelx[0], dataset=arr_data[0], attention=arr_at[0],
+                   pathmodel='EfficientNetB0-0.074628-99.2366.h5')
     test.all()
+    # test.acc()
 
 # 2021-04-16 guangjinzheng

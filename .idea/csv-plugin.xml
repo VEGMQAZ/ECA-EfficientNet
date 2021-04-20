@@ -59,6 +59,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\pr.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\splitdataset.py">
           <value>
             <Attribute>
