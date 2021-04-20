@@ -14,12 +14,12 @@ import models
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--data", type=str, default='Flower', help="is Flower, Fruit or Leaf")
+parser.add_argument("--data", type=str, default='Flavia', help="is Flavia, Flower, Leafsnap or Swedish")
 parser.add_argument("--models", type=str, default='EfficientNetB0', help="is EfficientNetB0, VGG16\
                     ResNetV2101, InceptionV3, DenseNet169, NASNetMobile or MobileNetV3")
 parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
 parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
-parser.add_argument("--af", type=str, default='hswish', help="is relu, swish or hswish")
+parser.add_argument("--af", type=str, default='swish', help="is relu, swish or hswish")
 parser.add_argument("--at", type=str, default='eca', help="is se or eca")
 parser.add_argument("--dirs", type=str, default='', help="is model data path")
 parser.add_argument("--load", type=int, default=0, help="number of models")
@@ -31,16 +31,16 @@ opt = parser.parse_args()
 # train model
 def trainmodel():
     path = 'D:/deeplearning/datasets/imageclassification/'
-    if opt.data in 'Fruits360-131':
-        path += 'Fruits360-131/'
-    elif opt.data in 'Leaves-32':
-        path += 'Leaves-32/'
+    if opt.data in 'Flavia-32':
+        path += 'Flavia-32'
+    elif opt.data in 'Flower-102':
+        path += 'Flower-102'
+    elif opt.data in 'Leafsnap-184':
+        path += 'Leafsnap-184'
     elif opt.data in 'Swedish-15':
         path += 'Swedish-15'
-    elif opt.data in 'Leafsnap-184':
-        path += 'Leafsnap-184/'
     else:
-        path += 'Flower-102/'
+        path += 'Flavia-32'
     classes = int(path.split('-')[-1].split('/')[0])
     print(opt)
     model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
@@ -49,8 +49,7 @@ def trainmodel():
     METRICS = [
         'accuracy',
         tf.keras.metrics.Precision(name='Precision'),
-        tf.keras.metrics.Recall(name='Recall'),
-        tfa.metrics.F1Score(name='F1Score', num_classes=classes)
+        tf.keras.metrics.Recall(name='Recall')
     ]
     model.compile(optimizer=Adam(opt.lr), loss='categorical_crossentropy', metrics=METRICS)
     # load data
