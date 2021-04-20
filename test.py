@@ -95,8 +95,8 @@ if __name__ == '__main__':
     arr_data = ['Leaf', 'Fruit', 'Flower']
     arr_at = ['eca', 'se']
     arr_af = ['hswish', 'swish', 'relu']
-    test = Testefn(modelx=modelx[0], dataset=arr_data[0], attention=arr_at[1], activation=arr_af[2],
-                   pathmodel='EfficientNetB0-se-relu-0.221890-91.2221.h5')
+    test = Testefn(modelx=modelx[0], dataset=arr_data[1], attention=arr_at[1], activation=arr_af[1],
+                   pathmodel='')
     test.all()
 
 # 2021-04-16 guangjinzheng

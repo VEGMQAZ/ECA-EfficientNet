@@ -52,6 +52,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\pic.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\splitdataset.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\test.py">
           <value>
             <Attribute>

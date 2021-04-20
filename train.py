@@ -33,6 +33,10 @@ def trainmodel():
     path = 'D:/deeplearning/datasets/imageclassification/'
     if opt.data in 'Fruits360-131':
         path += 'Fruits360-131/'
+    elif opt.data in 'Leaves-32':
+        path += 'Leaves-32/'
+    elif opt.data in 'Swedish-15':
+        path += 'Swedish-15'
     elif opt.data in 'Leafsnap-184':
         path += 'Leafsnap-184/'
     else:
@@ -67,7 +71,7 @@ def trainmodel():
     reduce_lr = ReduceLROnPlateau(monitor='accuracy', verbose=1, factor=0.2, patience=5)
     # load weights
     if opt.load > 0:
-        model.load_weights('logs/EfficientNetB0/20210417-022350/epoch/0050.h5')
+        model.load_weights('')
     history = model.fit(train_generator, epochs=opt.epochs, callbacks=[tensorboard_callback, cp_callback, reduce_lr])
     modelnum = history_csv(model, test_generator, history.history, pathcsv='{}/{}-{}.csv'.format(opt.dirs, opt.models, timenow))
     model.load_weights('{}epoch/{:04d}.h5'.format(opt.dirs, modelnum))
