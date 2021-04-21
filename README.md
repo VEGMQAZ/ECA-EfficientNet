@@ -94,6 +94,8 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 
 Precision Recall 
 
+V1.1
+
 ### 2021-04-20 guangjinzheng
 
 split dataset

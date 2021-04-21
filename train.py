@@ -140,4 +140,4 @@ if __name__ == '__main__':
     #     p.join()
     pass
 
-# 2021-04-16 guangjinzheng tensorflow efficientnet
+# 2021-04-21 guangjinzheng tensorflow efficientnet V1.1
