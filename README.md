@@ -90,6 +90,10 @@ The codebase is heavily inspired by the [TensorFlow implementation](https://gith
 
 ## History
 
+### 2021-04-26 guangjinzheng
+
+EfficientNet B1 bug
+
 ### 2021-04-21 guangjinzheng
 
 Precision Recall 

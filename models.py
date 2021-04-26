@@ -164,19 +164,66 @@ def myEfficientNetB0(input_shape=(224, 224, 3), classes=1000):
     return model
 
 # EfficientNet
-def myEfficientNet(attention='se', activation='swish', input_shape=(224, 224, 3), classes=1000):
-    # 2021-04-10 guangjinzheng
-    pre_trained_model = efn.EfficientNetB0(activation=activation, input_shape=input_shape, weights='imagenet', include_top=False)
+def myEfficientNet(model_str='EfficientNetB0', attention='se', activation='swish', input_shape=(224, 224, 3), classes=1000):
+    # 2021-04-26 guangjinzheng
+    top_dropout = 0.2
+    pre_trained_model = ''
+    if model_str in 'EfficientNetB0':
+        pre_trained_model = efn.EfficientNetB0(activation=activation, input_shape=input_shape, weights='imagenet', include_top=False)
+    if model_str in 'EfficientNetB1':
+        top_dropout = 0.2
+        pre_trained_model = efn.EfficientNetB1(activation=activation, input_shape=(240, 240, 3), weights='imagenet', include_top=False)
+    elif model_str in 'EfficientNetB2':
+        top_dropout = 0.3
+        pre_trained_model = efn.EfficientNetB2(activation=activation, input_shape=(260, 260, 3), weights='imagenet', include_top=False)
+    elif model_str in 'EfficientNetB3':
+        top_dropout = 0.3
+        pre_trained_model = efn.EfficientNetB3(activation=activation, input_shape=(300, 300, 3), weights='imagenet', include_top=False)
+    elif model_str in 'EfficientNetB4':
+        top_dropout = 0.4
+        pre_trained_model = efn.EfficientNetB4(activation=activation, input_shape=(380, 380, 3), weights='imagenet', include_top=False)
+    elif model_str in 'EfficientNetB5':
+        top_dropout = 0.4
+        pre_trained_model = efn.EfficientNetB5(activation=activation, input_shape=(456, 456, 3), weights='imagenet', include_top=False)
+    elif model_str in 'EfficientNetB6':
+        top_dropout = 0.5
+        pre_trained_model = efn.EfficientNetB6(activation=activation, input_shape=(528, 528, 3), weights='imagenet', include_top=False)
+    elif model_str in 'EfficientNetB7':
+        top_dropout = 0.5
+        pre_trained_model = efn.EfficientNetB7(activation=activation, input_shape=(600, 600, 3), weights='imagenet', include_top=False)
+    else:
+        pass
+
     if attention is not 'se':
-        my_model = eca.EfficientNetB0(activation=activation, input_shape=input_shape, weights=None, include_top=False)
+        my_model = ''
+        if model_str in 'EfficientNetB0':
+            my_model = eca.EfficientNetB0(activation=activation, input_shape=input_shape, weights=None, include_top=False)
+        if model_str in 'EfficientNetB1':
+            my_model = eca.EfficientNetB1(activation=activation, input_shape=(240, 240, 3), weights=None, include_top=False)
+        elif model_str in 'EfficientNetB2':
+            my_model = eca.EfficientNetB2(activation=activation, input_shape=(260, 260, 3), weights=None, include_top=False)
+        elif model_str in 'EfficientNetB3':
+            my_model = eca.EfficientNetB3(activation=activation, input_shape=(300, 300, 3), weights=None, include_top=False)
+        elif model_str in 'EfficientNetB4':
+            my_model = eca.EfficientNetB4(activation=activation, input_shape=(380, 380, 3), weights=None, include_top=False)
+        elif model_str in 'EfficientNetB5':
+            my_model = eca.EfficientNetB5(activation=activation, input_shape=(456, 456, 3), weights=None, include_top=False)
+        elif model_str in 'EfficientNetB6':
+            my_model = eca.EfficientNetB6(activation=activation, input_shape=(528, 528, 3), weights=None, include_top=False)
+        elif model_str in 'EfficientNetB7':
+            my_model = eca.EfficientNetB7(activation=activation, input_shape=(600, 600, 3), weights=None, include_top=False)
+        else:
+            pass
+
         for layeri in my_model.layers:
             if layeri.name in [j.name for j in pre_trained_model.layers]:
                 temp = pre_trained_model.get_layer(layeri.name).get_weights()
                 layeri.set_weights(temp)
         pre_trained_model = my_model
+
     x = pre_trained_model.output
     x = layers.GlobalAveragePooling2D(name='avg_pool')(x)
-    x = layers.Dropout(0.2, name='top_dropout')(x)
+    x = layers.Dropout(top_dropout, name='top_dropout')(x)
     predictions = layers.Dense(classes, activation='softmax')(x)
     model = Model(inputs=pre_trained_model.input, outputs=predictions)
     model.summary()

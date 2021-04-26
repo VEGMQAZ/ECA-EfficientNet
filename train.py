@@ -15,10 +15,10 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data", type=str, default='Flavia', help="is Flavia, Flower, Leafsnap or Swedish")
-parser.add_argument("--models", type=str, default='EfficientNetB0', help="is EfficientNetB0, VGG16\
+parser.add_argument("--models", type=str, default='EfficientNetB0', help="is EfficientNetB0~B3, VGG16\
                     ResNetV2101, InceptionV3, DenseNet169, NASNetMobile or MobileNetV3")
-parser.add_argument("--epochs", type=int, default=200, help="number of epochs of training")
-parser.add_argument("--lr", type=float, default=2e-5, help="Adam: learning rate")
+parser.add_argument("--epochs", type=int, default=100, help="number of epochs of training")
+parser.add_argument("--lr", type=float, default=5e-5, help="Adam: learning rate")
 parser.add_argument("--af", type=str, default='swish', help="is relu, swish or hswish")
 parser.add_argument("--at", type=str, default='eca', help="is se or eca")
 parser.add_argument("--dirs", type=str, default='', help="is model data path")
@@ -43,8 +43,10 @@ def trainmodel():
         path += 'Flavia-32'
     classes = int(path.split('-')[-1].split('/')[0])
     print(opt)
-    model = models.myEfficientNet(attention=opt.at, activation=opt.af, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
-    if opt.models != 'EfficientNetB0':
+    if 'EfficientNet' in opt.models:
+        model = models.myEfficientNet(model_str=opt.models, attention=opt.at, activation=opt.af,
+                                      input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
+    else:
         model = models.mymodels(model_str=opt.models, input_shape=(opt.img_size, opt.img_size, 3), classes=classes)
     METRICS = [
         'accuracy',
