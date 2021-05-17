@@ -3,6 +3,7 @@ import sklearn.metrics as metrics
 from keras_flops import get_flops
 import models
 import os
+import csv
 import time
 import tensorflow as tf
 import numpy as np
@@ -28,7 +29,7 @@ class Testefn(object):
         if self.modelx != 'EfficientNetB0':
             self.model = models.mymodels(model_str=self.modelx, input_shape=self.input_shape, classes=self.classes)
         self.model.compile(optimizer=tf.keras.optimizers.Adam(1e-5), loss='categorical_crossentropy',
-                           metrics='accuracy')
+            metrics=['accuracy', tf.keras.metrics.Precision(name='Precision'), tf.keras.metrics.Recall(name='Recall')])
         if self.path_model != '':
             self.model.load_weights(self.path_model)
         self.test_data = ImageDataGenerator(rescale=1.0 / 255.).flow_from_directory(
@@ -116,16 +117,34 @@ class Testefn(object):
         # c = metrics.precision_score(y_true, y_predict, average='samples')
         # d = metrics.recall_score(y_true, y_predict, average='samples')
         # e = metrics.f1_score(y_true, y_predict, average='samples')
-        print('a')
 
+    # save acc
+    def acccsv(self):
+        pathmodel = 'logs/EfficientNetB0/20210516-192026/epoch'
+        pathcsv = '{}/0000.csv'.format(pathmodel)
+        str_lossacc = ['id', 'test_loss', 'test_accuracy', 'test_Precision', 'test_Recall']
+        models = os.listdir(pathmodel)
+        with open(pathcsv, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=str_lossacc)
+            writer.writeheader()
+            for i in models:
+                print('{}/{}'.format(i.split('.')[0], len(models)))
+                if '.h5' in i:
+                    self.model.load_weights('{}/{}'.format(pathmodel, i))
+                    score = self.model.evaluate(self.test_data)
+                    writer.writerow({str_lossacc[0]: '{}'.format(i.split('.')[0]),
+                                     str_lossacc[1]: '{}'.format(score[0]), str_lossacc[2]: '{}'.format(score[1]),
+                                     str_lossacc[3]: '{}'.format(score[2]), str_lossacc[4]: '{}'.format(score[3])})
+        f.close()
 
 if __name__ == '__main__':
     modelx = ['EfficientNetB0', 'VGG16', 'ResNet101V2', 'InceptionV3', 'DenseNet169', 'MobileNetV3', 'NASNetMobile']
     arr_data = ['Flavia', 'Flower', 'Leafsnap']
     arr_at = ['eca', 'se']
-    test = Testefn(modelx=modelx[0], dataset=arr_data[0], attention=arr_at[0],
-                   pathmodel='EfficientNetB0-0.074628-99.2366.h5')
-    test.all()
+    test = Testefn(modelx=modelx[0], dataset=arr_data[1], attention=arr_at[0],
+                   pathmodel='logs/EfficientNetB0/20210516-192026/0046.h5')
+    # test.all()
+    test.acccsv()
     # test.acc()
 
 # 2021-04-16 guangjinzheng
