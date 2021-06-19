@@ -1,5 +1,6 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import sklearn.metrics as metrics
+import matplotlib.pyplot as plt
 from keras_flops import get_flops
 import models
 import os
@@ -118,6 +119,49 @@ class Testefn(object):
         # d = metrics.recall_score(y_true, y_predict, average='samples')
         # e = metrics.f1_score(y_true, y_predict, average='samples')
 
+    # pre
+    def plot_confusion_matrix(self):
+        y_true, y_pred = self.ypred()
+        cm = metrics.confusion_matrix(y_true, y_pred)
+        print(cm)
+        classes = self.test_data.class_indices
+
+        # plt.figure(figsize=(12, 8), dpi=100)
+        plt.figure(dpi=300)
+        np.set_printoptions(precision=2)
+
+        # 在混淆矩阵中每格的概率值
+        ind_array = np.arange(len(classes))
+        x, y = np.meshgrid(ind_array, ind_array)
+        for x_val, y_val in zip(x.flatten(), y.flatten()):
+            c = cm[y_val][x_val]
+            if c > 0.001:
+                plt.text(x_val, y_val, "%d" % (c,), color='red', fontsize=12, va='center', ha='center')
+
+        plt.imshow(cm, interpolation='nearest', cmap=plt.cm.binary)
+        plt.title('title')
+        plt.colorbar()
+        xlocations = np.array(range(len(classes)))
+        xy = list(range(len(classes)))
+        plt.xticks(xlocations, xy, rotation=90)
+        plt.yticks(xlocations, xy)
+        plt.ylabel('Actual label')
+        plt.xlabel('Predict label')
+
+        # offset the tick
+        tick_marks = np.array(range(len(classes))) + 0.5
+        plt.gca().set_xticks(tick_marks, minor=True)
+        plt.gca().set_yticks(tick_marks, minor=True)
+        plt.gca().xaxis.set_ticks_position('none')
+        plt.gca().yaxis.set_ticks_position('none')
+        plt.grid(True, which='minor', linestyle='-')
+        plt.gcf().subplots_adjust(bottom=0.15)
+
+        # show confusion matrix
+        plt.savefig('confusion_matrix.png', format='png')
+        # plt.show()
+        return 0
+
     # save acc
     def acccsv(self):
         pathmodel = 'logs/EfficientNetB0/20210516-192026/epoch'
@@ -139,12 +183,14 @@ class Testefn(object):
 
 if __name__ == '__main__':
     modelx = ['EfficientNetB0', 'VGG16', 'ResNet101V2', 'InceptionV3', 'DenseNet169', 'MobileNetV3', 'NASNetMobile']
-    arr_data = ['Flavia', 'Flower', 'Leafsnap']
+    arr_data = ['Swedish', 'Flavia', 'Flower', 'Leafsnap']
     arr_at = ['eca', 'se']
     test = Testefn(modelx=modelx[0], dataset=arr_data[1], attention=arr_at[0],
-                   pathmodel='logs/EfficientNetB0/20210516-192026/0046.h5')
+                   pathmodel='EfficientNetB0-0.040671-99.7455.h5')
     # test.all()
-    test.acccsv()
+    test.plot_confusion_matrix()
+    # test.flops()
+    # test.acccsv()
     # test.acc()
 
 # 2021-04-16 guangjinzheng
