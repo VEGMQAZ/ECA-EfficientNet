@@ -1,6 +1,7 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import sklearn.metrics as metrics
 import matplotlib.pyplot as plt
+from PIL import Image as ImagePIL
 from keras_flops import get_flops
 import models
 import os
@@ -84,6 +85,19 @@ class Testefn(object):
         g = flops / 2.0 / 10 ** 9
         print('{} {} {} {:.3f}G'.format(self.dataset, self.activation, self.attention, g))
         return g
+
+    def png300(self):
+        pic_path = 'pic'
+        if not os.path.exists(pic_path):
+            print('pic folder is empty...')
+            return
+        pic_dir = os.listdir(pic_path)
+        for diri in pic_dir:
+            if '300dpi' not in diri:
+                img = ImagePIL.open('{}/{}'.format(pic_path, diri))
+                img.save(r'{}/{}_300dpi.png'.format(pic_path, diri.split('.')[0]), dpi=(300, 300))
+        print('a')
+
 
     def all(self):
         top1 = self.top1acc()
@@ -188,9 +202,10 @@ if __name__ == '__main__':
     test = Testefn(modelx=modelx[0], dataset=arr_data[1], attention=arr_at[0],
                    pathmodel='EfficientNetB0-0.040671-99.7455.h5')
     # test.all()
-    test.plot_confusion_matrix()
+    test.png300()
+    # test.plot_confusion_matrix()
     # test.flops()
     # test.acccsv()
     # test.acc()
 
-# 2021-04-16 guangjinzheng
+# 2021-06-22 guangjinzheng
