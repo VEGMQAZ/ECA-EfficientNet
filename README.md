@@ -6,7 +6,7 @@ Our ECA-EfficientNet has higher accuracy and lower model complexity than previou
 ![Poster](results/improve.png)
 Our ECA-EfficientNet can further improve accuracy, by up to 1.3%.
 ![Poster](results/param.png)
-Our ECA has better parameter efficiency, which is reduced by approximately 15%.
+Our ECA-EfficientNet has better parameter efficiency, which is reduced by approximately 15%.
 
 ## ECA-MBConv
 
