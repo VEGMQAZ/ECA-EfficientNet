@@ -2,7 +2,7 @@
 Paper: Plant Species Recognition using EfficientNet with Efficient Channel Attention
 ## Introduction
 ![Poster](results/flower.png)
-Comparison of different Convolutional Neural Networks on Flower dataset in terms of plant species recognition Accuracy, Parameters and FLOPs (radius of circles). Note that our ECA-EfficientNet achieves higher Accuracy while having lower model complexity than previous Convolutional Neural Networks.
+Comparison of different Convolutional Neural Networks on Oxford 102 Flowers dataset in terms of plant species recognition Accuracy, Parameters and FLOPs (radius of circles). Note that our ECA-EfficientNet achieves higher Accuracy while having lower model complexity than previous Convolutional Neural Networks.
 ![Poster](results/improve.png)
 Our ECA-EfficientNet can further improve accuracy, by up to 1.3%.
 ![Poster](results/param.png)
