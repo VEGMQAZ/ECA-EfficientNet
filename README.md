@@ -32,7 +32,7 @@ conda install cudnn
 You can run the train.py to train or evaluate as follow:
 ``` python
 python train.py 
-python train.py --epoch 100 --lr 5e-5 --data flower --af relu --at se --batch_size 32 --img_size 224
+python train.py --epoch 100 --lr 5e-5 --data flower --af swish --at eca --batch_size 32 --img_size 224
 ```
 
 ## Contact Information
